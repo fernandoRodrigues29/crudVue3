@@ -1,0 +1,89 @@
+{
+  "estoque": [
+    {
+      "id": 1,
+      "nome": "nome do item ATUALIZADO",
+      "descricao": "descrição do item",
+      "tipo": "1",
+      "data_entrada": "2023-01-01",
+      "data_saida": "2023-01-02",
+      "estado": "1",
+      "situacao_atual": "1",
+      "quantidade": 10,
+      "situacao": 2,
+      "entrada": "2023-05-08",
+      "saida": "2023-05-26"
+    },
+    {
+      "nome": "lapis",
+      "descricao": "grafite",
+      "tipo": 1,
+      "entrada": null,
+      "saida": null,
+      "estado": 1,
+      "situacao": 1,
+      "quantidade": 2,
+      "id": 2
+    },
+    {
+      "nome": "pano de prato 3",
+      "descricao": "pano para cozinha secar pratos",
+      "tipo": 1,
+      "entrada": "2023-05-09",
+      "saida": "2023-05-09",
+      "estado": 1,
+      "situacao": 1,
+      "quantidade": 5,
+      "id": 3
+    },
+    {
+      "nome": "controle",
+      "descricao": null,
+      "tipo": null,
+      "entrada": null,
+      "saida": null,
+      "estado": null,
+      "situacao": null,
+      "quantidade": null,
+      "id": 4
+    }
+  ],
+  "tipos": [
+    {
+      "id": 1,
+      "tipo": "nao perecivel"
+    },
+    {
+      "id": 2,
+      "tipo": "perecivel"
+    }
+  ],
+  "estados": [
+    {
+      "id": 1,
+      "estado": "novo"
+    },
+    {
+      "id": 2,
+      "estado": "em uso"
+    },
+    {
+      "id": 3,
+      "estado": "quebrado"
+    }
+  ],
+  "situacoes": [
+    {
+      "id": 1,
+      "situacao": "no estoque"
+    },
+    {
+      "id": 2,
+      "situacao": "em uso"
+    },
+    {
+      "id": 3,
+      "situacao": "fora de estoque"
+    }
+  ]
+}
