@@ -1,6 +1,5 @@
 <template>
-            <div class="linha">
-                <!-- <div class="card"> 
+                  <div class="card"> 
                     <span class="material-icons icone-card"> check_box </span>
                     <div class="card-content">
                         <div class="left">
@@ -59,69 +58,15 @@
                         </div>
                     </div>
                     <div class="text-muted"> sub titulo esmaecido</div> 
-                </div> -->
-                <DashboardCards />
-            </div>
-            <div class="linha_2">
-                <div class="card">
-                    <DashboardTable />
-                </div>    
-                <div class="card">
-                    <canvas id="card_grafic"></canvas>
-                   
                 </div>
-            </div>
 </template>
 
 <script>
-// import { Chart, registerables } from "chart.js";
-import Chart from 'chart.js/auto';
-import DashboardTable from '@/components/DashboardTable.vue';
-import DashboardCards from '@/components/DashboardCards.vue';
-
 export default {
-name:"MainPage",
-data(){
-    return{
-        dados:[
-            { year: 2010, count: 10 },
-            { year: 2011, count: 20 },
-            { year: 2012, count: 15 },
-            { year: 2013, count: 25 },
-            { year: 2014, count: 22 },
-            { year: 2015, count: 30 },
-            { year: 2016, count: 28 },
-        ]
-    }
-},
-components:{
-    DashboardTable,
-    DashboardCards
-},
-mounted(){
-        new Chart(
-            document.getElementById('card_grafic'),
-            {
-            type: 'bar',
-            data: {
-                labels: this.dados.map(row => row.year),
-                datasets: [
-                {
-                    label: 'acsições por ano!',
-                    data: this.dados.map(row => row.count)
-                }
-                ]
-            }
-            }
-        );
-
+    name:'DashboardCards   '
 }
-
-};
-
-
 </script>
 
-<style scoped>
+<style>
 
 </style>

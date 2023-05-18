@@ -6,6 +6,8 @@ import MainPage from '../components/MainPage.vue'
 import FormItem from '../components/FormItem.vue';
 //table
 import Table from '../components/Table.vue';
+//login
+import Login from '../components/Login.vue';
 const routes = [
   {
     path: '/',
@@ -33,6 +35,11 @@ const routes = [
     component: Table  
   },
   {
+    path: '/login',
+    name: 'login',
+    component: Login  
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
@@ -43,5 +50,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+//midleware
+router.beforeEach(async (to,from)=>{
+  if(!localStorage.chaveLogin && to.name !== 'login'){
+    router.push('/login')
+  }
+});
+
 
 export default router

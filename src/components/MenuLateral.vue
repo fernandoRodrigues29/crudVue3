@@ -4,7 +4,7 @@
                 <router-link class="item" to="/"> <span class="material-icons"> home </span> Principal</router-link> 
                 <router-link class="item" to="/table"> <span class="material-icons"> settings </span> Gerênciar</router-link>                               
                 
-                <a href="#" class="item">
+                <a href="#" class="item" @click="logout">
                     <span class="material-icons"> logout </span>
                     sair
                 </a>
@@ -14,7 +14,15 @@
 
 <script>
 export default {
-    name:'MenuLateral'
+    name:'MenuLateral',
+    methods:{
+        async logout(){
+            if(localStorage.chaveLogin){
+                localStorage.removeItem('chaveLogin');
+                this.$router.push('/login');
+            }
+        }
+    }
 }
 </script>
 
