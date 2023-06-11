@@ -1,9 +1,9 @@
 <template>
                   <div class="card">
-                    <!-- <form action="#" method="POST"  class="form"> -->
-                        <form action="#" method="POST" @submit="setEstoque" class="form" >  
-                        <!-- <form action="#" method="POST" @submit="updateEstoque" class="form" >     -->
-                        <div class="formBox">
+                        <div v-if="!form_atualizacao">
+                            {{ form_atualizacao }}
+                            <form action="#" method="POST" @submit="setEstoque" class="form" >
+                                <div class="formBox">
                             <label for="i1">nome</label>
                             <input type="text" id="i1" v-model="nome" class="form-input">
                         </div>
@@ -47,11 +47,67 @@
                             <input type="number" id="i5" v-model="quantidade" class="form-input">
                         </div>
                         <div class="formBox">
+                            <input type="submit" class="form-button" >
+                        </div>
+                    </form>
+                        </div>
+                        <div v-if="form_atualizacao">
                             {{ form_atualizacao }}
+                            <form action="#" method="POST" @submit="updateEstoque" class="form" >
+                                <div class="formBox">
+                            <label for="i1">nome</label>
+                            <input type="text" id="i1" v-model="nome" class="form-input">
+                        </div>
+                        <div class="formBox">
+                            <label for="i2">descricao</label>
+                            <input type="text" id="i2" v-model="descricao" class="form-input">
+                        </div>
+                        <div class="formBox">
+                            <label for="e1">tipo</label>
+                            <select name="" id="e1" class="form-select"  v-model="tipo">
+                                <option v-for="t in tipos" :key="t.id" :value="t.id">{{t.tipo}} </option>
+                            </select>
+                        </div>
+                        <div class="formBox">
+                            <label for="i3">entrada</label>
+                            <input type="date" id="i3" v-model="entrada" class="form-input">
+                        </div>
+                        <div class="formBox">
+                            <label for="i4">saida</label>
+                            <input type="date" id="i4" v-model="saida" class="form-input">
+                        </div>
+                        <div class="formBox">
+                            <label for="e2">estado</label>
+                            <select name="estado-select" id="e2" v-model="estado" class="form-select">
+                                <option  v-for="e in estados" :key="e.id" :value="e.id" >{{e.estado}}</option>
+                            </select>
+                        </div>
+                        <div class="formBox">
+                            <label >situacao atual</label>
+                            <div class="formCheckBox">
+                                <div class="item-checknox">
+                                    <div v-for="s in situacoes" :key="s.id">
+                                        <input type="radio" name="radio" v-model="situacao" :id="'c'+s.id" :value="s.id">
+                                        <label class="label-checkbox" :for="'c'+s.id">{{s.situacao}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="formBox">
+                            <label for="i5">quantidade</label>
+                            <input type="number" id="i5" v-model="quantidade" class="form-input">
+                        </div>
+                        <div class="formBox">
+                            
                             <!-- <input type="submit" class="form-button" value="Cadastar" @submit="setEstoque"  v-if="!form_atualizacao"> -->
                             <input type="submit" class="form-button" >
                         </div>
                     </form>
+
+                        </div> 
+                              
+                        <!-- <form action="#" method="POST" @submit="updateEstoque" class="form" >     -->
+                        
                 </div>
 </template>
 
@@ -61,6 +117,8 @@ export default {
     name:'form-item',
     data(){
         return{
+            servidor:'"http://127.0.0.1:8000/api/',
+            // servidor:'"http://127.0.0.1:8000/api/',
             tipos:[],
             estados:[],
             situacoes:[],
@@ -73,38 +131,38 @@ export default {
             situacao:null,
             quantidade:null,
             id_estoque:null,
-            form_atualizacao:false
+            form_atualizacao:false,
 
         }
     },
     methods:{
         async getTipo(){
-            const req = await fetch("http://localhost:3000/tipos");
+            const req = await fetch(`http://127.0.0.1:8000/api/tipo`);
             const data = await req.json();
             this.tipos = data;
         },
         async getEstados(){
-            const req = await fetch("http://localhost:3000/estados");
+            const req = await fetch(`http://127.0.0.1:8000/api/estado`);
             const data = await req.json();
             this.estados = data;
             console.log('lista',data);
         },
         async getSituacoes(){
-            const req = await fetch("http://localhost:3000/situacoes");
+            const req = await fetch(`http://127.0.0.1:8000/api/situacao`);
             const data = await req.json();
             this.situacoes = data;
         },
         async carregarBotaoEditar(){
             console.log('registrando agora!');
             if(this.$route.params.id){
-                this.form_atualizacao !=this.form_atualizacao;
+                this.form_atualizacao = !this.form_atualizacao;
             }
         },
         async getItem(){
             if(this.$route.params.id){
                 const id = this.$route.params.id;
-                this.form_atualizacao !=this.form_atualizacao;
-                const req = await fetch("http://localhost:3000/estoque");
+                this.form_atualizacao = !this.form_atualizacao;
+                const req = await fetch(`http://127.0.0.1:8000/api/estoque/${id}`);
                     const data = await req.json();
                         const find_data = data.find((el)=>{
                             return  el.id == id
@@ -125,6 +183,7 @@ export default {
         },
         async updateEstoque(e){
             e.preventDefault();
+            const id = this.$route.params.id;
                 const data = {
                     nome:this.nome,
                     descricao:this.descricao,
@@ -133,12 +192,16 @@ export default {
                     saida:this.saida,
                     estado:this.estado,
                     situacao:this.situacao,
-                    quantidade:this.quantidade 
+                    quantidade:this.quantidade,
+                    id:id 
                 }
-                    const url_update = 'http://localhost:3000/estoque/'+this.id_estoque;
+                
+                console.log(data);
+                
+                    const url_update = 'http://127.0.0.1:8000/api/estoque';
                     const dataJson = JSON.stringify(data);
                         const req = await fetch(url_update,{
-                            method:"PATCH",
+                            method:"PUT",
                             headers:{
                                 "Content-Type":"application/json"
                             },
@@ -165,7 +228,7 @@ export default {
             }
             console.log('dados brutos',data);
             const dataJson = JSON.stringify(data);
-                const req = await fetch('http://localhost:3000/estoque',{
+                const req = await fetch('http://127.0.0.1:8000/api/estoque',{
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json"
@@ -175,16 +238,10 @@ export default {
                 .catch(err=>{
                     console.log('err msg:',err);
                 });
-                    const res = await req.json();
+                   
                     alert(`item ${this.nome} foi Cadastrado com sucesso!`);
-                    // this.msg();
-                    // Toastify({
-                    //     text: "This is a toast",
-                    //     className: "info",
-                    //         style: {
-                    //             background: "linear-gradient(to right, #00b09b, #96c93d)",
-                    //         }
-                    // }).showToast();            
+                    
+                    // usar o Toastify para enviar mansagem mais proficional
         },
         msg(){
             Toastify({
@@ -201,12 +258,22 @@ export default {
         }
 
     },
+    watch: {
+        // whenever question changes, this function will run
+        $route(to, from) {
+            console.log('de',to);
+            console.log('from',from);
+            // if (newQuestion.includes('?')) {
+            //     this.getAnswer()
+            // }
+        }
+    },
     mounted(){
         this.getTipo();
         this.getEstados();
         this.getSituacoes();
         this.getItem();
-        this.carregarBotaoEditar();
+        // this.carregarBotaoEditar();
         // this.msg();
     }
 }

@@ -84,13 +84,9 @@ name:"MainPage",
 data(){
     return{
         dados:[
-            { year: 2010, count: 10 },
-            { year: 2011, count: 20 },
-            { year: 2012, count: 15 },
-            { year: 2013, count: 25 },
-            { year: 2014, count: 22 },
-            { year: 2015, count: 30 },
-            { year: 2016, count: 28 },
+            { lab: 'entrada', count: 0 },
+            { lab: 'saida', count: 0 },
+            { lab: 'total', count: 0 },
         ]
     }
 },
@@ -98,23 +94,44 @@ components:{
     DashboardTable,
     DashboardCards
 },
-mounted(){
+methods:{
+    
+    async carregarDadosGrafocoPie(){
+        console.log('controle de carregar dados!');
+        const req = await fetch("http://127.0.0.1:8000/api/estoquedash");
+        const data = await req.json();
+        this.dados[0].count = data.entrada;
+                this.dados[1].count = data.saida;
+                this.dados[2].count = data.total;
+                console.log('dados alterados:',this.dados);
+
+    },
+    graficoPie(){
+        console.log('os dados vindo para o graficopie são',this.dados);
         new Chart(
             document.getElementById('card_grafic'),
             {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: this.dados.map(row => row.year),
+                labels: this.dados.map(row => row.lab),
                 datasets: [
                 {
-                    label: 'acsições por ano!',
+                    label: 'Estoque itens',
                     data: this.dados.map(row => row.count)
                 }
                 ]
             }
             }
         );
-
+    }
+},
+created(){
+    this.carregarDadosGrafocoPie();
+},
+mounted(){
+   
+    this.graficoPie();
+    
 }
 
 };

@@ -1,6 +1,7 @@
 <template>
-  <main class="conteiner">
-    <menuLateral/>
+  <main class="mainConteiner">
+    <menuLateral v-if="visibilidadeDoMenu"/>
+    
     <section>
         <router-view/>
     </section>  
@@ -10,7 +11,32 @@
 import menuLateral from "./components/MenuLateral.vue";
 export default{
     name:'App',
+    data(){
+        return {
+            visibilidadeDoMenu:false
+        }
+    },
+    watch:{
+        $route(to,from){
+            this.verificarSeExisteChave();
+        }
+    },
+    methods:{
+        verificarSeExisteChave(){
+            if(localStorage.chaveLogin){
+                console.log('exite chave');
+                this.visibilidadeDoMenu = true;
+            }else{
+                console.log('estáBloquado');
+                this.visibilidadeDoMenu = false;
+            }
+        }
+    },
+    created(){
+        this.verificarSeExisteChave();
+    },
     components:{menuLateral}
+
 }
 </script>
 <style>
@@ -50,12 +76,11 @@ nav a.router-link-exact-active {
             overflow-x: hidden;
             color: #363949;
         }
-        .conteiner{
-            display: grid;
-            width: 96%;
+        .mainConteiner{
+            width: 100vw;
             margin: 0 auto;
-            gap: 1.8rem;
-            grid-template-columns: 14rem auto;
+            display: flex;
+            justify-content: space-around;
         }
         .menu_lateral{
             display: flex;
@@ -150,6 +175,10 @@ nav a.router-link-exact-active {
             font-size: 2rem;
             color: #fff;
             background-color: #7380ec;
+            width: 50px;
+            height: 50px;
+            display: grid;
+            align-content: center;
         }
         .card-content {
             display: flex;

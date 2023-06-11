@@ -8,7 +8,7 @@
     </div>
     <div class="linha_2">
                 <div class="card">
-                    <div class="table">
+                    <div class="table" v-if="exibir_tabela">
                         <div class="tableHead">
                             <div class="tableHeadLine">
                                 <div class="tableHeadItem">#</div>
@@ -30,6 +30,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="spinner-grow" role="status" v-if="!exibir_tabela">
+                        <span class="sr-only"></span>
+                    </div>
                 </div>
             </div>
   </template>
@@ -40,41 +43,32 @@
       data(){
         return{
             estoque:[],
-            situacao:[]
+            situacao:[],
+            servidor:"http://127.0.0.1:8000/api/estoque",
+            exibir_tabela:false
         }
       },
       methods:{
         async loadItems(){
-            
-            const req = await fetch("http://localhost:3000/estoque");
+            const req = await fetch(this.servidor);
             const data = await req.json();
             //map
-            const estoqueComSituacao = data.map(item=>{
-                if(item.situacao ==1){
-                    item.situacao = 'no estoque';
-                }else if(item.situacao ==2){
-                    item.situacao = 'em uso'
-                }else{
-                    item.situacao = 'fora de estoque'
-                }
-                return item;
-            });
-
-            // this.estoque = data;
-            this.estoque = estoqueComSituacao;
-            console.log('estoque',this.estoque);
+            this.exibir_tabela = true;
+            this.estoque = data;
+           
         },
         async loadSituacao(){
-            const req = await fetch("http://localhost:3000/situacoes");
+            // const req = await fetch("http://localhost:3000/situacoes");
+            const req = await fetch("http://127.0.0.1:8000/api/situacao");
             const data = await req.json();
             this.situacao = data;
         },
         async deleteItem(id){
-            const req = await fetch(`http://localhost:3000/estoque/${id}`,{
+            const req = await fetch(`http://127.0.0.1:8000/api/estoque/${id}`,{
                 method:"DELETE"
             });
             const data = await req.json();
-                alert(`registro ${id} foi exxluido com sucesso!`);
+                alert(`registro ${id} foi excluido com sucesso!`);
                 this.loadItems();
         },
         async observarParametro(){
@@ -186,4 +180,9 @@
             }
 
         /* tabela */
+        /*spinner*/
+        .spinner-grow{
+            margin: 0 auto;
+        }
+        /*spiner*/
   </style>

@@ -85,5 +85,9 @@
       "id": 3,
       "situacao": "fora de estoque"
     }
-  ]
+  ],
+  "usuario": {
+    "email": "email@provedor.com",
+    "pass": "123"
+  }
 }

@@ -23,6 +23,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="spinner-grow" role="status" v-if="!exibir_tabela">
+                        <span class="sr-only"></span>
+                    </div>
                 
   </template>
   
@@ -32,28 +35,21 @@
       data(){
         return{
             estoque:[],
-            situacao:[]
+            situacao:[],
+            exibir_tabela:false
         }
       },
       methods:{
         async loadItems(){
-            const req = await fetch("http://localhost:3000/estoque");
+            const req = await fetch("http://127.0.0.1:8000/api/estoque");
             const data = await req.json();
             //map
-            const estoqueComSituacao = data.map(item=>{
-                if(item.situacao ==1){
-                    item.situacao = 'no estoque';
-                }else if(item.situacao ==2){
-                    item.situacao = 'em uso'
-                }else{
-                    item.situacao = 'fora de estoque'
-                }
-                return item;
-            });
+            this.exibir_tabela = true;
+            this.estoque = data;
 
             // this.estoque = data;
-            this.estoque = estoqueComSituacao;
-            console.log('estoque',this.estoque);
+            // this.estoque = estoqueComSituacao;
+            // console.log('estoque',this.estoque);
         },
       },
       mounted(){
@@ -140,4 +136,9 @@
             }
 
         /* tabela */
+        /*spinner*/
+        .spinner-grow{
+            margin: 0 auto;
+        }
+        /*spiner*/
   </style>

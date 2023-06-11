@@ -1,2 +1,19 @@
-# crudVue3
-o basico para um crud com vue 3, usando json-server para simular um banco de dados
+# front_estoque
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
