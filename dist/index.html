@@ -1,0 +1,19 @@
+<!doctype html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><title>front_estoque</title><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><script defer="defer" src="/js/chunk-vendors.4ad9fa30.js"></script><script defer="defer" src="/js/app.6ca7c5c9.js"></script><link href="/css/chunk-vendors.eb3447bb.css" rel="stylesheet"><link href="/css/app.e72e6114.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but front_estoque doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script>const ctx = document.getElementById('card_grafic');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });</script></body></html>
